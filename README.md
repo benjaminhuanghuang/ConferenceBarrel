@@ -1,39 +1,59 @@
 # Welcome to ASP.NET Core
 
-We've made some big updates in this release, so it’s **important** that you spend a few minutes to learn what’s new.
+1. Install .NET Core
 
-You've created a new ASP.NET Core project. [Learn what's new](https://go.microsoft.com/fwlink/?LinkId=518016)
+2. To use yeoman, need Node.js. To install Node.js, need NVM (node version manager)
+$ crul -o- https://…../install.sh | bash
+restart the terminal
+$ nvm ls-remote       # list all version of Node.js
+$ nvm install 4.4.7     # install node.js
+$ npm install -g npm    # install npm
 
-## This application consists of:
+3. Install packages
+$ npm install -g yo bower grunt-cli gulp generator-aspnet
 
-*   Sample pages using ASP.NET Core MVC
-*   [Bower](https://go.microsoft.com/fwlink/?LinkId=518004) for managing client-side libraries
-*   Theming using [Bootstrap](https://go.microsoft.com/fwlink/?LinkID=398939)
+4. Create project
+$ yo aspnet
 
-## How to
+5. Install VS Code
+$sudo dpkg -i  XXX.deb
+Ctl(CMD)+shit+p
 
-*   [Add a Controller and View](https://go.microsoft.com/fwlink/?LinkID=398600)
-*   [Add an appsetting in config and access it in app.](https://go.microsoft.com/fwlink/?LinkID=699562)
-*   [Manage User Secrets using Secret Manager.](https://go.microsoft.com/fwlink/?LinkId=699315)
-*   [Use logging to log a message.](https://go.microsoft.com/fwlink/?LinkId=699316)
-*   [Add packages using NuGet.](https://go.microsoft.com/fwlink/?LinkId=699317)
-*   [Add client packages using Bower.](https://go.microsoft.com/fwlink/?LinkId=699318)
-*   [Target development, staging or production environment.](https://go.microsoft.com/fwlink/?LinkId=699319)
+Add dependency in project.json (.net core1.0)
+"Microsoft.EntitiyFrameworkCore": "1.0.0",
+    "Microsoft.EntitiyFrameworkCore.Sqlite": "1.0.0",
+    "Microsoft.EntitiyFrameworkCore.Design": {
+      "version": "1.0.0",
+      "type": "build"
+    }
 
-## Overview
 
-*   [Conceptual overview of what is ASP.NET Core](https://go.microsoft.com/fwlink/?LinkId=518008)
-*   [Fundamentals of ASP.NET Core such as Startup and middleware.](https://go.microsoft.com/fwlink/?LinkId=699320)
-*   [Working with Data](https://go.microsoft.com/fwlink/?LinkId=398602)
-*   [Security](https://go.microsoft.com/fwlink/?LinkId=398603)
-*   [Client side development](https://go.microsoft.com/fwlink/?LinkID=699321)
-*   [Develop on different platforms](https://go.microsoft.com/fwlink/?LinkID=699322)
-*   [Read more on the documentation site](https://go.microsoft.com/fwlink/?LinkID=699323)
+Add dependency in .csproj (.net core 1.1)        
+<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version= "1.1.1"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version= "1.1.1"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version= "1.1.0"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version= "1.0.0"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Design" Version= "1.1.1"/>
 
-## Run & Deploy
+And tools in .csproj
+<ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.1" />
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.0" />
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
+  </ItemGroup>
+Run 
+dotnet ef migrations add Initial 
+This command use the tools added in .csproj file
 
-*   [Run your app](https://go.microsoft.com/fwlink/?LinkID=517851)
-*   [Run tools such as EF migrations and more](https://go.microsoft.com/fwlink/?LinkID=517853)
-*   [Publish to Microsoft Azure Web Apps](https://go.microsoft.com/fwlink/?LinkID=398609)
+Apply the migration
+$ dotnet ef database update
+Create /ConferenceBarrel/bin/Debug/netcoreapp1.1/confbarrel.db
 
-We would love to hear your [feedback](https://go.microsoft.com/fwlink/?LinkId=518015)
+Install Sqlite3
+$ brew install sqlite3
+
+Enter the folder of db file, and Run 
+$ sqlite3 confbarrel.db
+sqlite> .tables         # display all tables
+
+
